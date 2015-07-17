@@ -19,13 +19,15 @@ var steamWebLogOn = new SteamWebLogOn(steamClient, steamUser);
 
 Here `steamClient` is a `SteamClient` instance and `steamUser` is a `SteamUser` instance.
 
-Call `webLogOn` in callback of `logOnResponse` event of `steamClient`:
+Call `webLogOn` after log in, for example in callback of `logOnResponse` event of `steamClient`:
 
 ```js
-steamClient.on('logOnResponse', function() {
-  steamWebLogOn.webLogOn(function(webSessionID, cookies){
-    ...
-  });
+steamClient.on('logOnResponse', function(logonResp) {
+  if (logonResp.eresult == Steam.EResult.OK) {
+    steamWebLogOn.webLogOn(function(webSessionID, cookies){
+      ...
+    });
+  }
 });
 ```
 
