@@ -19,13 +19,12 @@ var steamWebLogOn = new SteamWebLogOn(steamClient, steamUser);
 
 Here `steamClient` is a `SteamClient` instance and `steamUser` is a `SteamUser` instance.
 
-The API basically dublicates `webLogOn` from the old node-steam, so you use it like this:
+Call `webLogOn` in callback of `logOnResponse` event of `steamClient`:
 
 ```js
-steamWebLogOn.on('webSessionID', function(sessionID) {
-  console.log(sessionID);
-  steamWebLogOn.webLogOn(function(cookies){
-    console.log(cookies);
+steamClient.on('logOnResponse', function() {
+  steamWebLogOn.webLogOn(function(webSessionID, cookies){
+    ...
   });
 });
 ```
@@ -36,16 +35,9 @@ steamWebLogOn.on('webSessionID', function(sessionID) {
 
 ### webLogOn(callback)
 
-Logs into Steam Community. You only need this if you know you do. `callback` will be called with an array of your new cookies (as strings).
+Logs into Steam Community. You only need this if you know you do. `callback` will be called with your new `webSessionID` and an array of your new cookies (as strings).
 
-Do not call this before the first ['webSessionID' event](#websessionid), or you'll get a broken cookie. Feel free to call this whenever you need to refresh your web session - for example, if you log into the same account from a browser on another computer.
-
-## Events
-
-### 'webSessionID'
-* your new sessionID
-
-If you are using Steam Community (including trading), you should call [webLogOn](#weblogoncallback) again, since your current cookie is no longer valid.
+Feel free to call this whenever you need to refresh your web session - for example, if you log into the same account from a browser on another computer.
 
 # License
 
