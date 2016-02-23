@@ -31,7 +31,8 @@ SteamWebLogOn.prototype.webLogOn = function (callback) {
       // request a new login key first
       this._steamUser.requestWebAPIAuthenticateUserNonce(function (nonce) {
         this._webLoginKey = nonce.webapi_authenticate_user_nonce;
-        this.webLogOn(callback);
+        // this.webLogOn(callback);
+		callback(new Error("Disconnected"));
       }.bind(this));
       return;
     }
@@ -43,7 +44,7 @@ SteamWebLogOn.prototype.webLogOn = function (callback) {
       'steamLoginSecure=' + body.authenticateuser.tokensecure
     ];
 
-    callback(this.sessionID, this.cookies);
+    callback(null,this.sessionID, this.cookies);
   }.bind(this));
 };
 
