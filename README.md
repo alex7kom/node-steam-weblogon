@@ -24,7 +24,7 @@ Call `webLogOn` after log in, for example in callback of `logOnResponse` event o
 ```js
 steamClient.on('logOnResponse', function(logonResp) {
   if (logonResp.eresult == Steam.EResult.OK) {
-    steamWebLogOn.webLogOn(function(webSessionID, cookies){
+    steamWebLogOn.webLogOn(error,function(webSessionID, cookies){
       ...
     });
   }
@@ -35,7 +35,7 @@ steamClient.on('logOnResponse', function(logonResp) {
 
 ## Methods
 
-### webLogOn(callback)
+### webLogOn(error,callback)
 
 Logs into Steam Community. You only need this if you know you do. `callback` will be called with your new `webSessionID` and an array of your new cookies (as strings).
 
