@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "steam-crypto": "0.0.1",
-    "steam-web-api": "0.0.1"
+    "steam-web-api": "0.0.1",
+    "crypto": "*"
   },
   "scripts": {}
 }
