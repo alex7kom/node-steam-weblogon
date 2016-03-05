@@ -37,7 +37,9 @@ SteamWebLogOn.prototype.webLogOn = function (callback) {
       return;
     }
 
-    this.sessionID = Math.floor(Math.random() * 1000000000).toString();
+	require('crypto').randomBytes(12, function(ex, buf) {
+		this.sessionID = buf.toString('hex');
+	});
     this.cookies = [
       'sessionid=' + this.sessionID,
       'steamLogin=' + body.authenticateuser.token,
