@@ -1,3 +1,5 @@
+var crypto = require('crypto');
+
 var getInterface = require('steam-web-api');
 var SteamCrypto = require('steam-crypto');
 
@@ -36,7 +38,7 @@ SteamWebLogOn.prototype.webLogOn = function (callback) {
       return;
     }
 
-    this.sessionID = Math.floor(Math.random() * 1000000000).toString();
+    this.sessionID = crypto.randomBytes(12).toString('hex');
     this.cookies = [
       'sessionid=' + this.sessionID,
       'steamLogin=' + body.authenticateuser.token,
