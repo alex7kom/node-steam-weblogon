@@ -12,10 +12,18 @@ function handleLogOnResponse (logOnResponse) {
 }
 
 function SteamWebLogOn (steamClient, steamUser) {
-  this._steamClient = steamClient;
-  this._steamUser = steamUser;
+  if (steamUser === undefined) {
+    this._steamUser = steamClient;
+  } else {
+    this._steamClient = steamClient;
+    this._steamUser = steamUser;
+    
+    this._steamClient.on('logOnResponse', handleLogOnResponse.bind(this));
+  }
+}
 
-  this._steamClient.on('logOnResponse', handleLogOnResponse.bind(this));
+SteamWebLogOn.prototype.setWebLoginKey = function(webLoginKey) {
+  this._webLoginKey = webLoginKey;
 }
 
 SteamWebLogOn.prototype.webLogOn = function (callback) {
