@@ -14,11 +14,14 @@ function handleLogOnResponse (logOnResponse) {
 function SteamWebLogOn (steamClient, steamUser) {
   this._steamClient = steamClient;
   this._steamUser = steamUser;
+  this._retryTimeout = null;
 
   this._steamClient.on('logOnResponse', handleLogOnResponse.bind(this));
 }
 
 SteamWebLogOn.prototype.webLogOn = function (callback) {
+  clearTimeout(this._retryTimeout);
+
   var sessionKey = SteamCrypto.generateSessionKey();
 
   getInterface('ISteamUserAuth').post('AuthenticateUser', 1, {
@@ -30,11 +33,14 @@ SteamWebLogOn.prototype.webLogOn = function (callback) {
     )
   }, function (statusCode, body) {
     if (statusCode !== 200) {
-      // request a new login key first
-      this._steamUser.requestWebAPIAuthenticateUserNonce(function (nonce) {
-        this._webLoginKey = nonce.webapi_authenticate_user_nonce;
-        this.webLogOn(callback);
-      }.bind(this));
+      this._retryTimeout = setTimeout(function () {
+        // request a new login key first
+        this._steamUser.requestWebAPIAuthenticateUserNonce(function (nonce) {
+          this._webLoginKey = nonce.webapi_authenticate_user_nonce;
+          this.webLogOn(callback);
+        }.bind(this));
+      }.bind(this), 5000);
+
       return;
     }
 
