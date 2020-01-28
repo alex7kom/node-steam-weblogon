@@ -1,6 +1,6 @@
 {
   "name": "steam-weblogon",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Steam WebLogOn implementation",
   "author": "Alexey Komarov <alex7kom@gmail.com>",
   "license": "MIT",
